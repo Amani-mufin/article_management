@@ -30,13 +30,13 @@ app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
 # # Ensure templates are auto-reloaded
 # app.config["TEMPLATES_AUTO_RELOAD"] = True
 
-# # Ensure responses aren't cached
-# @app.after_request
-# def after_request(response):
-#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-#     response.headers["Expires"] = 0
-#     response.headers["Pragma"] = "no-cache"
-#     return response
+# Ensure responses aren't cached
+@app.after_request
+def after_request(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
 
 
 # # Configure session to use filesystem (instead of signed cookies)
@@ -54,27 +54,135 @@ app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
 
 
 @app.route("/")
-@login_required
 def index():
-    """Show portfolio of stocks"""
-   
-    return render_template("register.html")
+    """Show index page"""
+    return render_template("index.html")
 
 
+@app.route("/viewall")
+def viewall():
+    """View all articles on the database"""
+    return render_template("viewall.html")
+
+
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    """Sell shares of stock"""
+
+    if request.method == "POST":
+#         symbol = request.form.get("symbol")
+#         shares = int(request.form.get("shares"))
+#         if not symbol:
+#             return apology("must provide symbol", 400)
+#         quote = lookup(symbol)
+
+#         if not quote:
+#             return apology("Enter a valid symbol plix", 400)
+#         if not shares:
+#             return apology("must provide shares", 400)
+#         if shares < 1:
+#             return apology("shares should be a positive integer", 400)
+#         symbol = quote['symbol']
+#         rows = db.execute("SELECT SUM(shares) FROM tranzact WHERE user_id = :id AND symbol = :symbol",
+#                           id=session["user_id"], symbol=symbol)
+
+#         stock = rows[0]['SUM(shares)']
+#         if not stock:
+#             return apology(f"Sorry ... You don't have any shares with {quote['name']}", 400)
+
+#         if stock < shares:
+#             return apology(f"Sorry ... You don't have enough {quote['name']} shares to sell", 400)
+
+#         price = shares * quote['price']
+#         shares = -shares
+
+#         db.execute("INSERT INTO tranzact (user_id, symbol, shares, price) VALUES (:user, :symbol, :shares, :price)",
+#                    user=session["user_id"], symbol=symbol, shares=shares, price=quote["price"])
+
+#         rows = db.execute("SELECT cash FROM users WHERE id = :id", id=session["user_id"])
+#         cash = rows[0]['cash']
+#         balance = cash + price
+#         db.execute("UPDATE users SET cash=:balance WHERE id=:id", balance=balance, id=session["user_id"])
+
+#         # Redirect user to home page
+        return redirect("/")
+    else:
+#         rows = db.execute("SELECT symbol FROM tranzact WHERE user_id=:id", id=session["user_id"])
+#         symbols = []
+#         for row in rows:
+#             symbols.append(row['symbol'])
+#         symbols = list(set(symbols))
+#         data = []
+#         for symbol in symbols:
+#             rows = db.execute("SELECT symbol, SUM(shares) FROM tranzact WHERE user_id=:id AND symbol=:symbol",
+#                             id=session["user_id"], symbol=symbol)
+#             if rows[0]['SUM(shares)'] > 0:
+#                 data.append(rows[0]['symbol'])
+#         print(data)
+        return render_template("search.html")
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    """Register user"""
+
+    # Forget any user_id
+    session.clear()
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        # username = request.form.get("username").strip()
+        # password = request.form.get("password")
+        # confirmation = request.form.get("confirmation")
+        # # Ensure username was submitted
+        # if not username:
+        #     return apology("must provide username", 400)
+
+        # # Ensure password was submitted
+        # elif not password:
+        #     return apology("must provide password", 400)
+
+        # if password != confirmation:
+        #     return apology("passwords must match", 400)
+
+        # else:
+        #     rows = db.execute("SELECT * FROM users WHERE username = :username",
+        #                       username=username)
+
+        #     # Ensure username exists and password is correct
+        #     if len(rows) >= 1:
+        #         return apology("User already exists", 400)
+
+        #     hash = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
+        #     db.execute("INSERT INTO users (username, hash) VALUES (:username, :hash)",
+        #                username=username, hash=hash)
+
+        # # Query database for username
+        # rows = db.execute("SELECT * FROM users WHERE username = :username",
+        #                   username=username)
+
+        # # Remember which user has logged in
+        # session["user_id"] = rows[0]["id"]
+        # # Redirect user to home page
+        return redirect("/")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("register.html")
 
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-#     """Log user in"""
+    """Log user in"""
 
-#     # Forget any user_id
+    # Forget any user_id
     session.clear()
 
-#     # User reached route via POST (as by submitting a form via POST)
+    # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        username = request.form.get("username").strip()
-        password = request.form.get("password")
+#         username = request.form.get("username").strip()
+#         password = request.form.get("password")
 #         # Ensure username was submitted
         if not username:
             return render_template("login.html", msg = "all fields must be filled")
@@ -94,7 +202,7 @@ def login():
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
 
-        # Redirect user to home page
+#         # Redirect user to home page
         return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
@@ -109,64 +217,49 @@ def logout():
     # Forget any user_id
     session.clear()
 
+
     # Redirect user to login form
     return redirect("/")
 
+@app.route("/view")
+# @login_required
+def view():
+    """Show history of transactions"""
+
+    rows = db.execute("SELECT symbol, shares, price, time FROM tranzact WHERE user_id=:id ORDER BY time DESC",
+                      id=session["user_id"])
+    print(rows)
+    return render_template("view.html")
 
 
-
-
-@app.route("/register", methods=["GET", "POST"])
-def register():
-#     """Register user"""
-
-#     # Forget any user_id
-    session.clear()
-
-#     # User reached route via POST (as by submitting a form via POST)
+@app.route("/edit", methods=["GET", "POST"])
+# @login_required
+def edit():
+    """Get stock quote."""
     if request.method == "POST":
-        username = request.form.get("username").strip()
-        password = request.form.get("password")
-        confirmation = request.form.get("confirmation")
-#         # Ensure username was submitted
-        if not username:
-            return render_template("register.html", msg = "all fields must be filled")
 
-#         # Ensure password was submitted
-        elif not password:
-             return render_template("register.html", msg = "all fields must be filled")
+        return render_template("edited.html")
 
-        if password != confirmation:
-             return render_template("register.html", msg = "passwords must match")
-
-        else:
-            rows = db.execute("SELECT * FROM users WHERE username = :username",
-                              username=username)
-
-#             # Ensure username exists and password is correct
-            if len(rows) >= 1:
-                return apology("User already exists", 400)
-
-            hash = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
-            db.execute("INSERT INTO users (username, hash) VALUES (:username, :hash)",
-                       username=username, hash=hash)
-
-#         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = :username",
-                          username=username)
-
-#         # Remember which user has logged in
-        session["user_id"] = rows[0]["id"]
-#         # Redirect user to home page
-        return redirect("/")
-
-#     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("register.html")
+        return render_template("edit.html")
 
 
 
 
+# @app.route("/delete", methods=["GET"])
+# def check():
+    # """Return true if username available, else false, in JSON format"""
+    # username = request.args.get("username")
+    # print(username)
+    # # Query database for username
+    # rows = db.execute("SELECT * FROM users WHERE username = :username",
+    #                   username=username)
+    # print(rows)
+    # # Ensure username exists and password is correct
+    # if len(rows) >= 1:
+    #     return jsonify(False)
+    # else:
+    #     return jsonify(True)
 
 
 # def errorhandler(e):
@@ -178,4 +271,3 @@ def register():
 
 # # Listen for errors
 # for code in default_exceptions:
-#     app.errorhandler(code)(errorhandler)

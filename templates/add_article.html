@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Log In
+{% endblock %}
+
+
+
+{% block main %}
+
+<div class="card">
+
+    <h5 class="card-header info-color white-text  mb-3 text-center py-4">
+        <strong>New Article</strong>
+    </h5>
+    
+    <form action="/new_article" method="POST">
+
+        <label for="title">Title</label>
+        <input type="text" class="form-control " name="title" placeholder="Title">
+
+        <br>
+        <label for="description" class="mb-3 mt-3">Description</label>
+            <input type="text" class="form-control md-6 description" name="description" placeholder="Description">
+        
+        <br>
+        <label for="content">
+            <textarea name="content" id="textarea" cols=100% rows="10" class="form-control" placeholder="Your Article here..."></textarea>
+        </label>
+
+        <br>
+        <button class="btn btn-primary" type="submit">Share</button>
+    </form>
+</div>
+{% endblock %}

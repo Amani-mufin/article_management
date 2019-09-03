@@ -232,7 +232,7 @@ def edit():
         return render_template("edited.html")
 
     else:
-        return render_template("edit.html")
+        return render_template("add_article.html")
 
 
 

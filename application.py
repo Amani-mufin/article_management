@@ -2,15 +2,30 @@
 
 # from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
-# from flask_session import Session
-# from tempfile import mkdtemp
-# from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
-# from werkzeug.security import check_password_hash, generate_password_hash
+from functools import wraps
+from flask_session import Session
+from tempfile import mkdtemp
+from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
+from werkzeug.security import check_password_hash, generate_password_hash
 
 # from helpers import apology, login_required, lookup, usd
 
+def login_required(f):
+    """
+    Decorate routes to require login.
+
+    http://flask.pocoo.org/docs/1.0/patterns/viewdecorators/
+    """
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("/login")
+        return f(*args, **kwargs)
+    return decorated_function
+
 # Configure application
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
 
 # # Ensure templates are auto-reloaded
 # app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -23,9 +38,6 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-
-# # Custom filter
-# app.jinja_env.filters["usd"] = usd
 
 # # Configure session to use filesystem (instead of signed cookies)
 # app.config["SESSION_FILE_DIR"] = mkdtemp()
@@ -172,25 +184,23 @@ def login():
 #         username = request.form.get("username").strip()
 #         password = request.form.get("password")
 #         # Ensure username was submitted
-#         if not username:
-#             return apology("must provide username", 403)
-
+        if not username:
+            return render_template("login.html", msg = "all fields must be filled")
+             
 #         # Ensure password was submitted
-#         elif not password:
-#             return apology("must provide password", 403)
+        elif not password:
+             return render_template("login.html", msg = "all fields must be filled")
 
-#         username = request.form.get("username")
+        # Query database for username
+        rows = db.execute("SELECT * FROM users WHERE username = :username",
+                          username=username)
 
-#         # Query database for username
-#         rows = db.execute("SELECT * FROM users WHERE username = :username",
-#                           username=username)
-
-#         # Ensure username exists and password is correct
-#         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
-#             return apology("invalid username and/or password", 403)
-#         print
-#         # Remember which user has logged in
-#         session["user_id"] = rows[0]["id"]
+        # Ensure username exists and password is correct
+        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
+            return apology("invalid username and/or password", 403)
+        print
+        # Remember which user has logged in
+        session["user_id"] = rows[0]["id"]
 
 #         # Redirect user to home page
         return redirect("/")
@@ -207,10 +217,9 @@ def logout():
     # Forget any user_id
     session.clear()
 
+
     # Redirect user to login form
     return redirect("/")
-
-
 
 @app.route("/view")
 # @login_required

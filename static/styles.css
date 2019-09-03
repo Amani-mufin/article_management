@@ -2,6 +2,7 @@ h1{
     text-align: center;
 }
 
+
 .rpt_warn{
     background-color: #FA9A85;
     color: #fff;
@@ -19,4 +20,25 @@ h1{
 }
 .btn_auth{
     text-align: center;
+  
+main .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+main
+{
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* center contents */
+    text-align: center;
+}
+input[type=text]{
+    width: 60%;
+
 }

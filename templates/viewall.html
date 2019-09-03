@@ -5,6 +5,17 @@
 {% endblock %}
 
 {% block main %}
-<h4>This is the viewall page</h4>
-<h1>Yes o ... Viewing things</h1>
+<div id="articles">
+{% for datum in data %}
+<div class="mb-5 article">
+<h4>{{ datum.username }}</h4>
+<h1>{{ datum.title }}</h1>
+<i>{{ datum.description }}</i>
+<p>{{ datum.content }}</p>
+<span><b>Likes: </b>{{ datum.like }}</span> <br>
+<span><b>Dislikes: </b>{{ datum.dislike }}</span><br>
+<span><b>Published On: </b>{{ datum.date }}</span>
+</div>
+{% endfor %}
+</div>
 {% endblock %}

@@ -33,7 +33,7 @@ Session(app)
 
 
 # Configure CS50 Library to use SQLite database
-# db = SQL("sqlite:///amstest.db")
+db = SQL("sqlite:///ams.db")
 
 # # Make sure API key is set
 # if not os.environ.get("API_KEY"):
@@ -43,13 +43,21 @@ Session(app)
 @app.route("/")
 def index():
     """Show index page"""
+
+
+
     return render_template("index.html")
 
 
 @app.route("/viewall")
 def viewall():
     """View all articles on the database"""
-    return render_template("viewall.html")
+    
+    rows = db.execute("""SELECT users.username, articles.title, articles.description, 
+    articles.content, articles.like, articles.dislike, articles.image, articles.date 
+    FROM users JOIN articles ON users.id = articles.userid""")
+
+    return render_template("viewall.html", data=rows)
 
 
 @app.route("/search", methods=["GET", "POST"])

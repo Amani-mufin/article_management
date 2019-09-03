@@ -8,12 +8,12 @@
     <form action="/login" method="post" class="auth-form">
         <div class="rpt_warn">{{msg}}</div>
         <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="email" placeholder="enter email" type="email">
+            <input autocomplete="off" autofocus class="form-control" name="email" placeholder="Enter Username or Email" type="text">
         </div>
         <div class="form-group">
             <input class="form-control" name="password" placeholder="Password" type="password">
         </div>
         
-        <button class="btn btn-primary"  type="submit">Log In</button>
+        <button class="btn btn-primary"  type="submit" class="btn_auth">Log In</button>
     </form>
 {% endblock %}

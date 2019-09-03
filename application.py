@@ -119,19 +119,19 @@ def register():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        # username = request.form.get("username").strip()
-        # password = request.form.get("password")
-        # confirmation = request.form.get("confirmation")
-        # # Ensure username was submitted
-        # if not username:
-        #     return apology("must provide username", 400)
+        username = request.form.get("username").strip()
+        password = request.form.get("password")
+        confirmation = request.form.get("confirmation")
+        # Ensure username was submitted
+        if not username:
+            return render_template ("register.html", msg="all fields must be filled")
 
         # # Ensure password was submitted
-        # elif not password:
-        #     return apology("must provide password", 400)
+        elif not password:
+            return render_template ("register.html", msg="all fields must be filled")
 
-        # if password != confirmation:
-        #     return apology("passwords must match", 400)
+        if password != confirmation:
+            return render_template ("register.html", msg="passwords must match")
 
         # else:
         #     rows = db.execute("SELECT * FROM users WHERE username = :username",
@@ -152,7 +152,7 @@ def register():
         # # Remember which user has logged in
         # session["user_id"] = rows[0]["id"]
         # # Redirect user to home page
-        return redirect("/")
+        # return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:

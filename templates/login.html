@@ -5,14 +5,15 @@
 {% endblock %}
 
 {% block main %}
-    <form action="/login" method="post">
+    <form action="/login" method="post" class="auth-form">
+        <div class="rpt_warn">{{msg}}</div>
         <div class="form-group">
-            <div class="rpt_warn">{{msg}}</div>
-            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+            <input autocomplete="off" autofocus class="form-control" name="email" placeholder="enter email" type="email">
         </div>
         <div class="form-group">
             <input class="form-control" name="password" placeholder="Password" type="password">
         </div>
-        <button class="btn btn-primary" type="submit">Log In</button>
+        
+        <button class="btn btn-primary"  type="submit">Log In</button>
     </form>
 {% endblock %}

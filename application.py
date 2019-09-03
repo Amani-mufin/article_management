@@ -15,13 +15,13 @@ app = Flask(__name__)
 # # Ensure templates are auto-reloaded
 # app.config["TEMPLATES_AUTO_RELOAD"] = True
 
-# # Ensure responses aren't cached
-# @app.after_request
-# def after_request(response):
-#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-#     response.headers["Expires"] = 0
-#     response.headers["Pragma"] = "no-cache"
-#     return response
+# Ensure responses aren't cached
+@app.after_request
+def after_request(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
 
 
 # # Custom filter
@@ -115,7 +115,7 @@ def register():
     """Register user"""
 
     # Forget any user_id
-    session.clear()
+    # session.clear()
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -165,7 +165,7 @@ def login():
     """Log user in"""
 
     # Forget any user_id
-    session.clear()
+    # session.clear()
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -217,8 +217,8 @@ def logout():
 def view():
     """Show history of transactions"""
 
-    rows = db.execute("SELECT symbol, shares, price, time FROM tranzact WHERE user_id=:id ORDER BY time DESC",
-                      id=session["user_id"])
+    # rows = db.execute("SELECT symbol, shares, price, time FROM tranzact WHERE user_id=:id ORDER BY time DESC",
+    #                   id=session["user_id"])
     print(rows)
     return render_template("view.html")
 
@@ -262,4 +262,3 @@ def edit():
 
 # # Listen for errors
 # for code in default_exceptions:
-#     app.errorhandler(code)(errorhandler)

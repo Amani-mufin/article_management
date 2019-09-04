@@ -122,49 +122,39 @@ def register():
     """Register user"""
 
     # Forget any user_id
-    # session.clear()
+    session.clear()
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         username = request.form.get("username").strip()
+        email = request.form.get("email")
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
-        # Ensure username was submitted
-        if not username:
+        # Ensure all fields were submitted
+        if not username or not password or not confirmation or not email:
             return render_template ("register.html", msg="all fields must be filled")
-
-        # # Ensure password was submitted
-        elif not password:
-            return render_template ("register.html", msg="all fields must be filled")
-
+        # ensure passwords match
         if password != confirmation:
             return render_template ("register.html", msg="passwords must match")
+        
+        #ensure username and email are unique
+        else:
+            rows = db.execute("SELECT * FROM users WHERE username = :username OR email =:email",
+                              username=username, email=email)
 
-        # else:
-        #     rows = db.execute("SELECT * FROM users WHERE username = :username",
-        #                       username=username)
+            # Check if username/email already exist
+            if len(rows) > 0:
+                return render_template("register.html", msg="username/email already exists")
 
-        #     # Ensure username exists and password is correct
-        #     if len(rows) >= 1:
-        #         return apology("User already exists", 400)
+            hash = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
+            db.execute("INSERT INTO users (username, password, email) VALUES (:username, :password, :email)",
+                       username=username, password=hash, email=email)
 
-        #     hash = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
-        #     db.execute("INSERT INTO users (username, hash) VALUES (:username, :hash)",
-        #                username=username, hash=hash)
-
-        # # Query database for username
-        # rows = db.execute("SELECT * FROM users WHERE username = :username",
-        #                   username=username)
-
-        # # Remember which user has logged in
-        # session["user_id"] = rows[0]["id"]
-        # # Redirect user to home page
-        # return redirect("/")
+        return redirect("/login")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("register.html")
-
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -172,39 +162,34 @@ def login():
     """Log user in"""
 
     # Forget any user_id
-    # session.clear()
+    session.clear()
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-#         username = request.form.get("username").strip()
-#         password = request.form.get("password")
-#         # Ensure username was submitted
-#         if not username:
-#             return apology("must provide username", 403)
+        usermail = request.form.get("usermail").strip()
+        password = request.form.get("password")
+        # Ensure usermail and password were submitted
+        if not usermail or not password:
+            return render_template("login.html", msg="all fields must be filled")
 
-#         # Ensure password was submitted
-#         elif not password:
-#             return apology("must provide password", 403)
+        # Query database for username/mail
+        rows = db.execute("SELECT * FROM users WHERE username = :username OR email =:email",
+                           username=usermail, email=usermail)
 
-#         username = request.form.get("username")
+        # Ensure username/email exists and password is correct
+        if len(rows) != 1 or not check_password_hash(rows[0]["password"], password):
+            return render_template("login.html", msg="invalid username and/or password")
 
-#         # Query database for username
-#         rows = db.execute("SELECT * FROM users WHERE username = :username",
-#                           username=username)
+        # Remember which user has logged in
+        session["user_id"] = rows[0]["id"]
 
-#         # Ensure username exists and password is correct
-#         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
-#             return apology("invalid username and/or password", 403)
-#         print
-#         # Remember which user has logged in
-#         session["user_id"] = rows[0]["id"]
-
-#         # Redirect user to home page
+        # Redirect user to home page
         return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("login.html")
+
 
 
 @app.route("/logout")
@@ -215,7 +200,7 @@ def logout():
     session.clear()
 
     # Redirect user to login form
-    return redirect("/")
+    return redirect("/login")
 
 
 

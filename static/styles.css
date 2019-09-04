@@ -13,10 +13,13 @@ h1{
 
 
 .auth-form{
-    width: 30%;
+    width: 40%;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+}
+input[type=text], input[type=password]{
+    width: 310px;
 }
 
 .btn_auth{

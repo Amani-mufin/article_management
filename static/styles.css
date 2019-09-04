@@ -43,3 +43,24 @@ main
     /* center contents */
     text-align: center;
 }
+.title{
+    height: 52%;
+    width: 68%;
+    border-radius: 10px;
+    border: 2px solid rgb(243, 241, 238);
+    padding: 1em;
+
+}
+.description, .content{
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid rgb(243, 241, 238);
+    padding: 1em;
+}
+textarea {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    width: 100%;
+}

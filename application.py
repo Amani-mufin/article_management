@@ -215,13 +215,24 @@ def view():
     return render_template("view.html")
 
 
-@app.route("/edit", methods=["GET", "POST"])
+@app.route("/article", methods=["GET", "POST"])
 # @login_required
-def edit():
+def article():
     """Get stock quote."""
     if request.method == "POST":
+        userid = session["user_id"]
+        title = request.form.get("title")
+        description = request.form.get("description")
+        content = request.form.get("content")
+        image = request.form.get("image")
 
-        return render_template("edited.html")
+
+        if not title or not description or not content:
+            return render_template ("add_article.html", msg="Title, Description and Content fields must be filled")
+        
+        db.execute("INSERT INTO articles ('userid', 'title', 'description', 'content', 'image') VALUES (:userid, :title, :description, :content, :image)",
+            userid=userid, title=title, description=description, content=content, image=image)
+        return render_template ("add_article.html", msg="Article posted successfully!")
 
     else:
         return render_template("add_article.html")

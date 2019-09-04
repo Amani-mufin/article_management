@@ -32,7 +32,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-Configure CS50 Library to use SQLite database
+# Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///ams.db")
 
 # # Make sure API key is set
@@ -43,13 +43,21 @@ db = SQL("sqlite:///ams.db")
 @app.route("/")
 def index():
     """Show index page"""
+
+
+
     return render_template("index.html")
 
 
 @app.route("/viewall")
 def viewall():
     """View all articles on the database"""
-    return render_template("viewall.html")
+    
+    rows = db.execute("""SELECT users.username, articles.title, articles.description, 
+    articles.content, articles.like, articles.dislike, articles.image, articles.date 
+    FROM users JOIN articles ON users.id = articles.userid""")
+
+    return render_template("viewall.html", data=rows)
 
 
 @app.route("/search", methods=["GET", "POST"])
@@ -149,7 +157,6 @@ def register():
         return render_template("register.html")
 
 
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
@@ -182,6 +189,7 @@ def login():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("login.html")
+
 
 
 @app.route("/logout")

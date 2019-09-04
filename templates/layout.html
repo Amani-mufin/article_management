@@ -4,19 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="keywords" content="articles, writing, article writing, reading, journals">
-    <meta name="authors" content="Victor Chinewubeze, Amani Kanu, Promise">
+    <meta
+      name="keywords"
+      content="articles, writing, article writing, reading, journals"
+    />
+    <meta name="authors" content="Victor Chinewubeze, Amani Kanu, Promise" />
     <title>AMS | {% block title %}{% endblock %}</title>
     <link
       rel="stylesheet"
       href="/static/bootstrap.min.css"
       crossorigin="anonymous"
     />
-    <script
-      src="/static/bootstrap.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <link rel="stylesheet" href="/static/styles.css"/>
+    <script src="/static/bootstrap.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -31,37 +31,33 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
         <ul class="navbar-nav mr-auto">
-            {% if session.user_id %}
+          {% if session.user_id %}
           <li class="nav-item">
             <a class="nav-link" href="#">Write an Article</a>
           </li>
           <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-              >
-                My Articles
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/view">View All</a>
-                <a class="dropdown-item" href="/edit">Edit an Article</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </li>
-            {% else %}
-            <li class="nav-item">
-                <a class="nav-link" href="/register">Become a Writer</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="/login">Log in</a>
-                </li>
-            {% endif %}
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+            >
+              My Articles
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/view">View All</a>
+              <a class="dropdown-item" href="/edit">Edit an Article</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/register">Become a Writer</a>
+          </li>
+          {% endif %}
           <li class="nav-item active">
             <a class="nav-link" href="viewall">View All Articles</a>
           </li>
@@ -76,15 +72,22 @@
           <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
             Search
           </button>
+          {% if session.user_id %}
+          <a class="nav-link" href="/logout">Log out</a>
+          {% else %}
+          <a class="nav-link" href="/login">Log in</a>
+          {% endif %}
         </form>
       </div>
     </nav>
 
     <main class="container p-5">
-        {% block main %}{% endblock %}
+      {% block main %}{% endblock %}
     </main>
 
-    <footer class="text-center bg-light p-2"><a href="/">AMS, Copyright &copy; 2019</a></footer>
+    <footer class="text-center bg-light p-2">
+      <a href="/">AMS, Copyright &copy; 2019</a>
+    </footer>
 
     <script src="js/main.js"></script>
     <script

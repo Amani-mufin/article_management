@@ -1,6 +1,7 @@
 {% extends "layout.html" %} {% block title %} View {% endblock %} {% block main
     %}
     <div id="articles" class="row">
+            <div class="rpt_warn">{{msg}}</div>
       {% for datum in data %}
       <div class="article-img col-md-3">
         <img src="../static/article2.jpg" alt="">

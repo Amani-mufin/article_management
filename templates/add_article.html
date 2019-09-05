@@ -16,21 +16,14 @@ Add New Article
 
     <form action="/article" method="POST">
 
-        <label for="title"></label>
             <input class="title" name="title" placeholder="Title">
-        
-        <br>
-        <label for="description" class="mb-3 mt-3">
-            <textarea class="md-6 description" cols="100" style="max-width:100%;" name="description"
+
+            <textarea class="md-6 description" cols="100" name="description"
                 placeholder="Description"></textarea>
-        </label>
-        <br>
-        <br>
-        <label for="content">
-            <textarea name="content" id="textarea" rows="15" cols="100" style="max-width:100%;" class="content"
+
+            <textarea name="content" id="textarea" rows="15" cols="100" class="content"
                 placeholder="Your Article here..."></textarea>
-        </label>
-        <br>
+
         <div class="custom-file mb-3 col-md-3">
             <input type="file" name="image" class="form-control" accept="image/*"  />
         </div>

@@ -54,7 +54,7 @@ def viewall():
     rows = db.execute("""SELECT articles.id, users.username, articles.title, articles.description, 
     articles.content, articles.like, articles.dislike, articles.image, articles.date 
     FROM users JOIN articles ON users.id = articles.userid""")
-    return render_template("viewall.html", data=rows)
+    return render_template("view.html", data=rows)
 
 
 @app.route("/search", methods=["GET", "POST"])
@@ -65,13 +65,13 @@ def search():
         search =  "%"+ request.form.get("search").strip()+"%"
         # check for empty search key
         if search=="%%":
-            return render_template("search.html", msg=" Enter a valid search key")
+            return render_template("view.html", msg=" Enter a valid search key")
         # search db with search key
-        data = db.execute("SELECT users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE username LIKE (:search)  OR title LIKE (:search)  OR description LIKE (:search)  OR content LIKE (:search) ", search=search)
+        data = db.execute("SELECT articles.id, users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE username LIKE (:search)  OR title LIKE (:search)  OR description LIKE (:search)  OR content LIKE (:search) ", search=search)
         if not data:
-            return render_template("search.html", msg=" article not found ")
+            return render_template("view.html", msg=" article not found ")
         else:
-            return render_template("search.html", data=data)
+            return render_template("view.html", data=data)
         
 
 
@@ -162,9 +162,9 @@ def logout():
 
 
 
-@app.route("/view")
+@app.route("/viewone")
 # @login_required
-def view():
+def viewone():
     """Show history of transactions"""
 
     # rows = db.execute("SELECT symbol, shares, price, time FROM tranzact WHERE user_id=:id ORDER BY time DESC",

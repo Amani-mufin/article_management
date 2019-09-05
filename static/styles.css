@@ -43,3 +43,12 @@ main
     /* center contents */
     text-align: center;
 }
+
+.article_image{
+    display: flex;
+    max-height: 700px;
+}
+
+.article_image img {
+    object-fit: contain;
+  }

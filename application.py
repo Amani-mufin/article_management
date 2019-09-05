@@ -53,10 +53,9 @@ def index():
 def viewall():
     """View all articles on the database"""
     
-    rows = db.execute("""SELECT users.username, articles.title, articles.description, 
+    rows = db.execute("""SELECT articles.id, users.username, articles.title, articles.description, 
     articles.content, articles.like, articles.dislike, articles.image, articles.date 
     FROM users JOIN articles ON users.id = articles.userid""")
-
     return render_template("viewall.html", data=rows)
 
 

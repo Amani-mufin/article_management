@@ -62,6 +62,10 @@ def search():
     """Sell shares of stock"""
 
     if request.method == "POST":
+        search =  request.form.get("search")
+        data = db.execute("SELECT users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE username LIKE :search OR title LIKE :search OR description LIKE :search OR content LIKE :search", search=search)
+        # print(rows)
+        return render_template("search.html", data=data)
 #         symbol = request.form.get("symbol")
 #         shares = int(request.form.get("shares"))
 #         if not symbol:
@@ -97,8 +101,8 @@ def search():
 #         db.execute("UPDATE users SET cash=:balance WHERE id=:id", balance=balance, id=session["user_id"])
 
 #         # Redirect user to home page
-        return redirect("/")
-    else:
+        # return redirect("/")
+    # else:
 #         rows = db.execute("SELECT symbol FROM tranzact WHERE user_id=:id", id=session["user_id"])
 #         symbols = []
 #         for row in rows:
@@ -111,7 +115,7 @@ def search():
 #             if rows[0]['SUM(shares)'] > 0:
 #                 data.append(rows[0]['symbol'])
 #         print(data)
-        return render_template("search.html")
+        
 
 
 @app.route("/register", methods=["GET", "POST"])

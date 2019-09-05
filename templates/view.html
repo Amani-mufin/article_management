@@ -1,10 +1,31 @@
-{% extends "layout.html" %}
-
-{% block title %}
-    View
-{% endblock %}
-
-{% block main %}
-<h4>This is the view</h4>
-<h1>YEs o ... Viewing things</h1>
-{% endblock %}
+{% extends "layout.html" %} {% block title %} View {% endblock %} {% block main
+    %}
+    <div id="articles" class="row">
+            <div class="rpt_warn">{{msg}}</div>
+      {% for datum in data %}
+      <div class="article-img col-md-3">
+        <img src="../static/article2.jpg" alt="">
+      </div>
+      <div class="article mb-5 bg-light p-4 col-md-9" onclick="openClose('more{{ datum.id }}')">
+        
+        <div class="article_head">
+        <h1>{{ datum.title }}</h1>
+        <p><i>{{ datum.description }}</i></p>
+      </div>
+        <div class="article_body" id="more{{ datum.id }}">
+        <hr>
+        <div class="article_image mb-4"><img src="/static/testpic.jpeg" alt="{{ datum.title }}"></div>
+        <p class="text-justify">{{ datum.content }}</p>
+      </div>
+      <h4 class="text-right">- {{ datum.username }}</h4>
+      <hr>
+        <div class="article_footer row">
+          <span class="col-2 text-left"><b><i class="fas fa-thumbs-up text-primary"></i> </b><sup>{{ datum.like }}</sup></span>
+          <span class="col-2 text-left"><b><i class="fas fa-thumbs-down text-primary"></i> </b><sup>{{ datum.dislike }}</sup></span>
+          <span class="col-8 text-right"><b>Published On: </b>{{ datum.date }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endblock %}
+    

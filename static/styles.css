@@ -44,6 +44,15 @@ main
     text-align: center;
 }
 
+.article{
+    cursor: pointer;
+}
+
+.article_body {
+    display: none;
+    transition: 5s;
+}
+
 .article_image{
     display: flex;
     max-height: 700px;
@@ -52,3 +61,5 @@ main
 .article_image img {
     object-fit: contain;
   }
+
+  

@@ -2,14 +2,18 @@
 %}
 <div id="articles">
   {% for datum in data %}
-  <div class="mb-5 article bg-light p-4">
+  <div class="article mb-5 bg-light p-4" onclick="openClose('more{{ datum.id }}')">
+    <div class="article_head">
     <h1>{{ datum.title }}</h1>
     <p><i>{{ datum.description }}</i></p>
+  </div>
+    <div class="article_body" id="more{{ datum.id }}">
     <hr>
     <div class="article_image mb-4"><img src="/static/testpic.jpeg" alt="{{ datum.title }}"></div>
     <p class="text-justify">{{ datum.content }}</p>
-    <h4 class="text-right">- {{ datum.username }}</h4>
-    <hr>
+  </div>
+  <h4 class="text-right">- {{ datum.username }}</h4>
+  <hr>
     <div class="article_footer row">
       <span class="col-2 text-left"><b>Likes: </b>{{ datum.like }}</span>
       <span class="col-2 text-left"><b>Dislikes: </b>{{ datum.dislike }}</span>

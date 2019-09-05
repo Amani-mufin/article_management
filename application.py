@@ -62,8 +62,8 @@ def search():
     """Sell shares of stock"""
 
     if request.method == "POST":
-        search =  request.form.get("search")
-        data = db.execute("SELECT users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE username LIKE :search OR title LIKE :search OR description LIKE :search OR content LIKE :search", search=search)
+        search =  "%"+ request.form.get("search")+"%"
+        data = db.execute("SELECT users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE username LIKE (:search)  OR title LIKE (:search)  OR description LIKE (:search)  OR content LIKE (:search) ", search=search)
         # print(rows)
         return render_template("search.html", data=data)
 #         symbol = request.form.get("symbol")

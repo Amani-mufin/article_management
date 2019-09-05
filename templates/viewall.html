@@ -1,8 +1,12 @@
 {% extends "layout.html" %} {% block title %} View {% endblock %} {% block main
 %}
-<div id="articles">
+<div id="articles" class="row">
   {% for datum in data %}
-  <div class="article mb-5 bg-light p-4" onclick="openClose('more{{ datum.id }}')">
+  <div class="article-img col-md-3">
+    <img src="../static/article2.jpg" alt="">
+  </div>
+  <div class="article mb-5 bg-light p-4 col-md-9" onclick="openClose('more{{ datum.id }}')">
+    
     <div class="article_head">
     <h1>{{ datum.title }}</h1>
     <p><i>{{ datum.description }}</i></p>
@@ -15,8 +19,8 @@
   <h4 class="text-right">- {{ datum.username }}</h4>
   <hr>
     <div class="article_footer row">
-      <span class="col-2 text-left"><b>Likes: </b>{{ datum.like }}</span>
-      <span class="col-2 text-left"><b>Dislikes: </b>{{ datum.dislike }}</span>
+      <span class="col-2 text-left"><b><i class="fas fa-thumbs-up text-primary"></i> </b><sup>{{ datum.like }}</sup></span>
+      <span class="col-2 text-left"><b><i class="fas fa-thumbs-down text-primary"></i> </b><sup>{{ datum.dislike }}</sup></span>
       <span class="col-8 text-right"><b>Published On: </b>{{ datum.date }}</span>
     </div>
   </div>

@@ -63,26 +63,24 @@ main
   }
 
 .title{
-    height: 52%;
-    width: 68%;
+    width: 100%;
     border-radius: 10px;
     border: 2px solid rgb(243, 241, 238);
-    padding: 1em;
-
+    padding: 10px;
+    margin: 10px;
 }
 .description, .content{
     width: 100%;
     border-radius: 10px;
     border: 2px solid rgb(243, 241, 238);
-    padding: 1em;
+    padding: 10px;
+    margin: 10px;
 }
-textarea {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
 
-    width: 100%;
+form[action="/article"] {
+    padding: 20px;
 }
+
 .article-img img{
     width: 100%;
     height: 100%;

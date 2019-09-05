@@ -163,7 +163,6 @@ def logout():
 
 
 @app.route("/viewone")
-# @login_required
 def viewone():
     """Show history of transactions"""
 
@@ -174,7 +173,7 @@ def viewone():
 
 
 @app.route("/article", methods=["GET", "POST"])
-# @login_required
+@login_required
 def article():
     """Get stock quote."""
     if request.method == "POST":

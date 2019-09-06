@@ -158,7 +158,7 @@ def login():
         session["user_id"] = rows[0]["id"]
 
         # Redirect user to home page
-        return redirect("/")
+        return redirect("/viewmine")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -180,7 +180,6 @@ def logout():
 @app.route("/article", methods=["GET", "POST"])
 @login_required
 def article():
-    """Get stock quote."""
     if request.method == "POST":
         userid = session["user_id"]
         title = request.form.get("title")
@@ -200,6 +199,13 @@ def article():
         return render_template("add_article.html")
 
 
+@app.route("/viewmine")
+@login_required
+def viewmine():
+    userid = session["user_id"]
+
+    rows = db.execute("SELECT * FROM articles WHERE userid=:userid", userid=userid)
+    return render_template("viewmine.html", data=rows)
 
 
 # @app.route("/delete", methods=["GET"])

@@ -53,7 +53,7 @@ def viewall():
     
     rows = db.execute("""SELECT articles.id, users.username, articles.title, articles.description, 
     articles.content, articles.like, articles.dislike, articles.image, articles.date 
-    FROM users JOIN articles ON users.id = articles.userid""")
+    FROM users JOIN articles ON users.id = articles.userid  ORDER BY date DESC""")
     return render_template("view.html", data=rows)
 
 
@@ -67,7 +67,7 @@ def search():
         if search=="%%":
             return render_template("view.html", msg=" Enter a valid search key")
         # search db with search key
-        data = db.execute("SELECT articles.id, users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE username LIKE (:search)  OR title LIKE (:search)  OR description LIKE (:search)  OR content LIKE (:search) ", search=search)
+        data = db.execute("SELECT articles.id, users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE username LIKE (:search)  OR title LIKE (:search)  OR description LIKE (:search)  OR content LIKE (:search)  ORDER BY date DESC", search=search)
         if not data:
             return render_template("view.html", msg=" article not found ")
         else:
@@ -186,7 +186,7 @@ def article():
         
         db.execute("INSERT INTO articles ('userid', 'title', 'description', 'content', 'image') VALUES (:userid, :title, :description, :content, :image)",
             userid=userid, title=title, description=description, content=content, image=image)
-        return render_template ("add_article.html", msg="Article posted successfully!")
+        return redirect("/viewall")
 
     else:
         return render_template("add_article.html")

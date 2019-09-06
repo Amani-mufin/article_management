@@ -165,9 +165,7 @@ def logout():
 @app.route("/viewone/<id>")
 def viewone(id):
     """Show history of transactions"""
-    print(id)
     rows = db.execute("SELECT * FROM users JOIN articles ON users.id = articles.userid WHERE articles.id=:id", id=id)
-    print(rows[0])
     return render_template("viewone.html", datum=rows[0])
 
 

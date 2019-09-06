@@ -54,6 +54,7 @@ def viewall():
     rows = db.execute("""SELECT articles.id, users.username, articles.title, articles.description, 
     articles.content, articles.like, articles.dislike, articles.image, articles.date 
     FROM users JOIN articles ON users.id = articles.userid  ORDER BY date DESC""")
+    print(rows)
     return render_template("view.html", data=rows)
 
 

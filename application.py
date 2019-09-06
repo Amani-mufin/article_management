@@ -1,5 +1,3 @@
-# import os
-
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
@@ -56,7 +54,7 @@ def viewall():
     rows = db.execute("""SELECT articles.id, users.username, articles.title, articles.description, 
     articles.content, articles.like, articles.dislike, articles.image, articles.date 
     FROM users JOIN articles ON users.id = articles.userid""")
-    return render_template("viewall.html", data=rows)
+    return render_template("view.html", data=rows)
 
 
 @app.route("/search", methods=["GET", "POST"])
@@ -64,56 +62,17 @@ def search():
     """Sell shares of stock"""
 
     if request.method == "POST":
-#         symbol = request.form.get("symbol")
-#         shares = int(request.form.get("shares"))
-#         if not symbol:
-#             return apology("must provide symbol", 400)
-#         quote = lookup(symbol)
-
-#         if not quote:
-#             return apology("Enter a valid symbol plix", 400)
-#         if not shares:
-#             return apology("must provide shares", 400)
-#         if shares < 1:
-#             return apology("shares should be a positive integer", 400)
-#         symbol = quote['symbol']
-#         rows = db.execute("SELECT SUM(shares) FROM tranzact WHERE user_id = :id AND symbol = :symbol",
-#                           id=session["user_id"], symbol=symbol)
-
-#         stock = rows[0]['SUM(shares)']
-#         if not stock:
-#             return apology(f"Sorry ... You don't have any shares with {quote['name']}", 400)
-
-#         if stock < shares:
-#             return apology(f"Sorry ... You don't have enough {quote['name']} shares to sell", 400)
-
-#         price = shares * quote['price']
-#         shares = -shares
-
-#         db.execute("INSERT INTO tranzact (user_id, symbol, shares, price) VALUES (:user, :symbol, :shares, :price)",
-#                    user=session["user_id"], symbol=symbol, shares=shares, price=quote["price"])
-
-#         rows = db.execute("SELECT cash FROM users WHERE id = :id", id=session["user_id"])
-#         cash = rows[0]['cash']
-#         balance = cash + price
-#         db.execute("UPDATE users SET cash=:balance WHERE id=:id", balance=balance, id=session["user_id"])
-
-#         # Redirect user to home page
-        return redirect("/")
-    else:
-#         rows = db.execute("SELECT symbol FROM tranzact WHERE user_id=:id", id=session["user_id"])
-#         symbols = []
-#         for row in rows:
-#             symbols.append(row['symbol'])
-#         symbols = list(set(symbols))
-#         data = []
-#         for symbol in symbols:
-#             rows = db.execute("SELECT symbol, SUM(shares) FROM tranzact WHERE user_id=:id AND symbol=:symbol",
-#                             id=session["user_id"], symbol=symbol)
-#             if rows[0]['SUM(shares)'] > 0:
-#                 data.append(rows[0]['symbol'])
-#         print(data)
-        return render_template("search.html")
+        search =  "%"+ request.form.get("search").strip()+"%"
+        # check for empty search key
+        if search=="%%":
+            return render_template("view.html", msg=" Enter a valid search key")
+        # search db with search key
+        data = db.execute("SELECT articles.id, users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE username LIKE (:search)  OR title LIKE (:search)  OR description LIKE (:search)  OR content LIKE (:search) ", search=search)
+        if not data:
+            return render_template("view.html", msg=" article not found ")
+        else:
+            return render_template("view.html", data=data)
+        
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -203,9 +162,8 @@ def logout():
 
 
 
-@app.route("/view")
-# @login_required
-def view():
+@app.route("/viewone")
+def viewone():
     """Show history of transactions"""
 
     # rows = db.execute("SELECT symbol, shares, price, time FROM tranzact WHERE user_id=:id ORDER BY time DESC",
@@ -215,7 +173,7 @@ def view():
 
 
 @app.route("/article", methods=["GET", "POST"])
-# @login_required
+@login_required
 def article():
     """Get stock quote."""
     if request.method == "POST":

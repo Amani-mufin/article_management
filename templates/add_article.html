@@ -8,7 +8,7 @@ Add New Article
 
 {% block main %}
 <div class="rpt_warn">{{msg}}</div>
-<div class="card">
+<div class="card pb-3 mb-5">
 
     <h5 class="card-header info-color white-text  mb-3 text-center py-4">
         <strong>New Article</strong>
@@ -16,26 +16,21 @@ Add New Article
 
     <form action="/article" method="POST">
 
-        <label for="title">
-            <input type="text" class="form-control " name="title" placeholder="Title">
-        </label>
-        <br>
-        <label for="description" class="mb-3 mt-3">
-        <input type="text" class="form-control md-6 description" name="description" placeholder="Description">
-        </label>
-        <br>
-        <div class="custom-file mb-3 col-md-3">
-            <label class="custom-file-label" for="inputGroupFile01">Upload Photo</label>
-            <input type="file" class="custom-file-input"  name="image">
-        </div>
-        <br>
-        <label for="content">
-            <textarea name="content" id="textarea" cols=100% rows="10" class="form-control"
+            <input class="title" name="title" placeholder="Title">
+
+            <textarea class="md-6 description" cols="100" name="description"
+                placeholder="Description"></textarea>
+
+            <textarea name="content" id="textarea" rows="15" cols="100" class="content"
                 placeholder="Your Article here..."></textarea>
-        </label>
+
+        <div class="custom-file mb-3 col-md-3">
+            <input type="file" name="image" class="form-control" accept="image/*"  />
+        </div>
 
         <br>
 
+        
         <button class="btn btn-primary" type="submit">Share</button>
     </form>
 </div>

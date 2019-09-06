@@ -62,4 +62,28 @@ main
     object-fit: contain;
   }
 
-  
+.title{
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid rgb(243, 241, 238);
+    padding: 10px;
+    margin: 10px;
+}
+.description, .content{
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid rgb(243, 241, 238);
+    padding: 10px;
+    margin: 10px;
+}
+
+form[action="/article"] {
+    padding: 20px;
+}
+
+.article-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    padding-bottom: 3em;
+}

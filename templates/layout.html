@@ -16,6 +16,7 @@
       crossorigin="anonymous"
     />
     <script src="/static/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
@@ -62,7 +63,7 @@
             <a class="nav-link" href="viewall">View All AMS Articles</a>
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+        <form class="form-inline my-2 my-lg-0" action="/search" method="POST">
           <input
             class="form-control mr-sm-2"
             type="search"
@@ -81,7 +82,7 @@
       </div>
     </nav>
 
-    <main class="container p-5">
+    <main class="container p-2">
       {% block main %}{% endblock %}
     </main>
 

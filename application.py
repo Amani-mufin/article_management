@@ -41,9 +41,6 @@ db = SQL("sqlite:///ams.db")
 @app.route("/")
 def index():
     """Show index page"""
-
-
-
     return render_template("index.html")
 
 
@@ -54,6 +51,24 @@ def viewall():
     rows = db.execute("""SELECT articles.id, users.username, articles.title, articles.description, 
     articles.content, articles.like, articles.dislike, articles.image, articles.date 
     FROM users JOIN articles ON users.id = articles.userid  ORDER BY date DESC""")
+    print(rows)
+    return render_template("view.html", data=rows)
+
+
+@app.route("/viewone/<id>")
+def viewone(id):
+    """Show history of transactions"""
+    rows = db.execute("SELECT * FROM users JOIN articles ON users.id = articles.userid WHERE articles.id=:id", id=id)
+    return render_template("viewone.html", datum=rows[0])
+
+
+@app.route("/viewall/<id>")
+def viewall_author(id):
+    """View all articles on the database"""
+    
+    rows = db.execute("""SELECT articles.id, users.username, articles.title, articles.description, 
+    articles.content, articles.like, articles.dislike, articles.image, articles.date 
+    FROM users JOIN articles ON users.id = articles.userid WHERE articles.userid = :id ORDER BY date DESC""", id=id)
     print(rows)
     return render_template("view.html", data=rows)
 
@@ -160,14 +175,6 @@ def logout():
 
     # Redirect user to login form
     return redirect("/login")
-
-
-
-@app.route("/viewone/<id>")
-def viewone(id):
-    """Show history of transactions"""
-    rows = db.execute("SELECT * FROM users JOIN articles ON users.id = articles.userid WHERE articles.id=:id", id=id)
-    return render_template("viewone.html", datum=rows[0])
 
 
 @app.route("/article", methods=["GET", "POST"])

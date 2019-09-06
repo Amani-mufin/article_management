@@ -4,26 +4,23 @@
             <div class="rpt_warn m-4">{{msg}}</div>
       {% for datum in data %}
 
-      <div class="article mb-5 bg-light p-4 col-md-9" onclick="/view{{ datum.id }}">
-            <div class="article-img col-md-3">
-                    <img src="../static/article2.jpg" alt="">
+      <div class="article mb-4 bg-light p-4">
+          <div class="article_main row">
+            <div class="article-img col-3">
+                    <img src="{{ datum.image }}" alt="{{ datum.title }}">
                   </div>
-        <div class="article_head">
-        <h1>{{ datum.title }}</h1>
+        <div class="article_head col-9">
+        <h3>{{ datum.title }}</h3>
         <p><i>{{ datum.description }}</i></p>
-      </div>
-        <div class="article_body" id="more{{ datum.id }}">
-        <hr>
-        <div class="article_image mb-4"><img src="/static/testpic.jpeg" alt="{{ datum.title }}"></div>
-        <p class="text-justify">{{ datum.content }}</p>
-      </div>
       <h4 class="text-right">- {{ datum.username }}</h4>
       <p class="text-right"><b>Published On: </b>{{ datum.date }}</p>
+    </div>
+</div>
       <hr>
-        <div class="article_footer row">
-          <span class="col-2 text-left"><b><i class="fas fa-thumbs-up text-primary"></i> </b><sup>{{ datum.like }}</sup></span>
-          <span class="col-2 text-left"><b><i class="fas fa-thumbs-down text-primary"></i> </b><sup>{{ datum.dislike }}</sup></span>
-          <a href="/viewone/{{ datum.id }}"><button class="col-8 btn btn-primary text-right">View</button></a>
+        <div class="article_footer">
+          <span class="ml-4"><i class="fas fa-thumbs-up text-primary"></i> {{ datum.like }}</span>
+          <span class="ml-4"><i class="fas fa-thumbs-down text-primary"></i> {{ datum.dislike }}</span>
+          <a class="ml-4" href="/viewone/{{ datum.id }}"><button class="btn btn-primary text-right">View Article</button></a>
         </div>
       </div>
       {% endfor %}

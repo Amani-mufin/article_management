@@ -41,9 +41,6 @@ db = SQL("sqlite:///ams.db")
 @app.route("/")
 def index():
     """Show index page"""
-
-
-
     return render_template("index.html")
 
 
@@ -53,7 +50,26 @@ def viewall():
     
     rows = db.execute("""SELECT articles.id, users.username, articles.title, articles.description, 
     articles.content, articles.like, articles.dislike, articles.image, articles.date 
-    FROM users JOIN articles ON users.id = articles.userid""")
+    FROM users JOIN articles ON users.id = articles.userid  ORDER BY date DESC""")
+    print(rows)
+    return render_template("view.html", data=rows)
+
+
+@app.route("/viewone/<id>")
+def viewone(id):
+    """Show history of transactions"""
+    rows = db.execute("SELECT * FROM users JOIN articles ON users.id = articles.userid WHERE articles.id=:id", id=id)
+    return render_template("viewone.html", datum=rows[0])
+
+
+@app.route("/viewall/<id>")
+def viewall_author(id):
+    """View all articles on the database"""
+    
+    rows = db.execute("""SELECT articles.id, users.username, articles.title, articles.description, 
+    articles.content, articles.like, articles.dislike, articles.image, articles.date 
+    FROM users JOIN articles ON users.id = articles.userid WHERE articles.userid = :id ORDER BY date DESC""", id=id)
+    print(rows)
     return render_template("view.html", data=rows)
 
 
@@ -67,7 +83,7 @@ def search():
         if search=="%%":
             return render_template("view.html", msg=" Enter a valid search key")
         # search db with search key
-        data = db.execute("SELECT articles.id, users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE username LIKE (:search)  OR title LIKE (:search)  OR description LIKE (:search)  OR content LIKE (:search) ", search=search)
+        data = db.execute("SELECT articles.id, users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE username LIKE (:search)  OR title LIKE (:search)  OR description LIKE (:search)  OR content LIKE (:search)  ORDER BY date DESC", search=search)
         if not data:
             return render_template("view.html", msg=" article not found ")
         else:
@@ -161,14 +177,6 @@ def logout():
     return redirect("/login")
 
 
-
-@app.route("/viewone/<id>")
-def viewone(id):
-    """Show history of transactions"""
-    rows = db.execute("SELECT * FROM users JOIN articles ON users.id = articles.userid WHERE articles.id=:id", id=id)
-    return render_template("viewone.html", datum=rows[0])
-
-
 @app.route("/article", methods=["GET", "POST"])
 @login_required
 def article():
@@ -186,7 +194,7 @@ def article():
         
         db.execute("INSERT INTO articles ('userid', 'title', 'description', 'content', 'image') VALUES (:userid, :title, :description, :content, :image)",
             userid=userid, title=title, description=description, content=content, image=image)
-        return render_template ("add_article.html", msg="Article posted successfully!")
+        return redirect("/viewall")
 
     else:
         return render_template("add_article.html")

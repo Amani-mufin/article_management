@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Add New Article
+{% endblock %}
+
+
+
+{% block main %}
+<div class="rpt_warn">{{msg}}</div>
+<div class="card pb-3 mb-5">
+
+    <h5 class="card-header info-color white-text  mb-3 text-center py-4">
+        <strong>New Article</strong>
+    </h5>
+
+    <form action="/article" method="POST">
+
+            <input class="title" name="title" placeholder="Title" value={{data.title}}>
+
+            <textarea class="md-6 description" cols="100" name="description" value="{{data.description}}""
+                placeholder="Description"></textarea>
+
+            <textarea name="content" id="textarea" rows="15" cols="100" class="content"
+                placeholder="Your Article here..." value="{{data.content}}"></textarea>
+
+        <div class="custom-file mb-3 col-md-3">
+            <input type="file" name="image" class="form-control" accept="image/*"  />
+        </div>
+
+        <br>
+
+        
+        <button class="btn btn-primary" type="submit">Update</button>
+    </form>
+</div>
+{% endblock %}

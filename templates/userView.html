@@ -1,13 +1,11 @@
 {% extends "layout.html" %} {% block title %} View {% endblock %} {% block main
     %}
     <div id="articles" class="row">
-            <div class="rpt_warn">{{msg}}</div>
+            <div class="rpt_warn m-4">{{msg}}</div>
       {% for datum in data %}
-      <div class="article-img col-md-3">
-        <img src="../static/article2.jpg" alt="">
-      </div>
-      <div class="article mb-5 bg-light p-4 col-md-9" onclick="openClose('more{{ datum.id }}')">
-        
+      
+      <div class="article mb-5 bg-light p-4 col-md-9" onclick="/view{{ datum.id }}">
+            
         <div class="article_head">
         <h1>{{ datum.title }}</h1>
         <p><i>{{ datum.description }}</i></p>
@@ -18,11 +16,13 @@
         <p class="text-justify">{{ datum.content }}</p>
       </div>
       <h4 class="text-right">- {{ datum.username }}</h4>
+      <p class="text-right"><b>Published On: </b>{{ datum.date }}</p>
       <hr>
         <div class="article_footer row">
           <span class="col-2 text-left"><b><i class="fas fa-thumbs-up text-primary"></i> </b><sup>{{ datum.like }}</sup></span>
           <span class="col-2 text-left"><b><i class="fas fa-thumbs-down text-primary"></i> </b><sup>{{ datum.dislike }}</sup></span>
-          <span class="col-8 text-right"><b>Published On: </b>{{ datum.date }}</span>
+          <a href="/edit"><button class="col-8 btn btn-primary text-right">Edit</button></a>
+          <a href="/viewone/{{ datum.id }}"><button class="col-8 btn btn-danger text-right">Delete</button></a>
         </div>
       </div>
       {% endfor %}

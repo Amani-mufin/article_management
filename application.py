@@ -208,6 +208,12 @@ def userView():
         # else:
             # return render_template("view.html", data=data)
 
+@app.route("/edit", methods=["GET", "POST"])
+def edit():
+    if request.method == "GET":
+        data= db.execute("select * FROM articles WHERE id= 2")
+        print(data)
+        return render_template("edit.html", data=data)
 # @app.route("/delete", methods=["GET"])
 # def check():
     # """Return true if username available, else false, in JSON format"""

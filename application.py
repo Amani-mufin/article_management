@@ -230,20 +230,14 @@ def edit(id):
         data= db.execute("select * FROM articles WHERE id= :id", id=id)
         # print(data[0]["id"])
         return render_template("edit.html", data=data)
-# @app.route("/delete", methods=["GET"])
-# def check():
-    # """Return true if username available, else false, in JSON format"""
-    # username = request.args.get("username")
-    # print(username)
-    # # Query database for username
-    # rows = db.execute("SELECT * FROM users WHERE username = :username",
-    #                   username=username)
-    # print(rows)
-    # # Ensure username exists and password is correct
-    # if len(rows) >= 1:
-    #     return jsonify(False)
-    # else:
-    #     return jsonify(True)
+@app.route("/delete/<id>", methods=["GET"])
+def delete(id):
+    """Return true if username available, else false, in JSON format"""
+    
+    # DELETE ITEM FROM database WITH ID
+    db.execute("DELETE FROM articles WHERE id = :id",
+                      id=id)
+    return redirect("/view", msg="Article deleted successfully")
 
 
 # def errorhandler(e):

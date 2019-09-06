@@ -76,9 +76,18 @@ form[action="/article"] {
     padding: 20px;
 }
 
+.article-img {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+}
+
 .article-img img{
     width: 100%;
-    height: 100%;
-    object-fit: fill;
-    padding-bottom: 3em;
+    object-fit: contain;
+}
+
+.article_footer {
+    display: flex;
+    justify-content: flex-end;
 }

@@ -162,14 +162,13 @@ def logout():
 
 
 
-@app.route("/viewone")
-def viewone():
+@app.route("/viewone/<id>")
+def viewone(id):
     """Show history of transactions"""
-
-    # rows = db.execute("SELECT symbol, shares, price, time FROM tranzact WHERE user_id=:id ORDER BY time DESC",
-    #                   id=session["user_id"])
-    print(rows)
-    return render_template("view.html")
+    print(id)
+    rows = db.execute("SELECT * FROM users JOIN articles ON users.id = articles.userid WHERE articles.id=:id", id=id)
+    print(rows[0])
+    return render_template("viewone.html", datum=rows[0])
 
 
 @app.route("/article", methods=["GET", "POST"])

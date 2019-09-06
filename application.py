@@ -196,6 +196,17 @@ def article():
 
 
 
+@app.route("/view", methods=["GET", "POST"])
+def userView():
+    if request.method == "GET":
+        userid = session["user_id"]
+        data = db.execute("SELECT articles.id, users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE articles.userid = :userid", 
+        userid=userid)
+        return render_template("userView.html", data=data)
+        # if not data:
+        #     return render_template("view.html", msg=" article not found ")
+        # else:
+            # return render_template("view.html", data=data)
 
 # @app.route("/delete", methods=["GET"])
 # def check():

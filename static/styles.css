@@ -4,11 +4,15 @@ h1{
 
 
 .rpt_warn{
-    background-color: #FA9A85;
+    display: block;
+    width: 100%;
+    background-color: rgb(228, 16, 16);
     color: #fff;
     margin-bottom: 20px;
     border-radius: 5px;
-    height: auto;  
+    height: auto; 
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 

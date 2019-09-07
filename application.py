@@ -158,7 +158,7 @@ def login():
         session["user_id"] = rows[0]["id"]
 
         # Redirect user to home page
-        return redirect("/viewmine")
+        return redirect("/view")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -199,19 +199,12 @@ def article():
         return render_template("add_article.html")
 
 
-@app.route("/viewmine")
-@login_required
-def viewmine():
-    userid = session["user_id"]
-
-    rows = db.execute("SELECT * FROM articles WHERE userid=:userid", userid=userid)
-    return render_template("viewmine.html", data=rows)
-
 @app.route("/view", methods=["GET", "POST"])
+@login_required
 def userView():
     if request.method == "GET":
         userid = session["user_id"]
-        data = db.execute("SELECT articles.id, users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE articles.userid = :userid", 
+        data = db.execute("SELECT articles.id, users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE articles.userid = :userid ORDER BY date DESC", 
         userid=userid)
         return render_template("userView.html", data=data)
         # if not data:

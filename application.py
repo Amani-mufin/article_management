@@ -199,14 +199,6 @@ def article():
         return render_template("add_article.html")
 
 
-@app.route("/viewmine")
-@login_required
-def viewmine():
-    userid = session["user_id"]
-
-    rows = db.execute("SELECT * FROM articles WHERE userid=:userid", userid=userid)
-    return render_template("viewmine.html", data=rows)
-
 @app.route("/view", methods=["GET", "POST"])
 def userView():
     if request.method == "GET":

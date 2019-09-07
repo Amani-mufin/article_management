@@ -207,21 +207,43 @@ def viewmine():
     rows = db.execute("SELECT * FROM articles WHERE userid=:userid", userid=userid)
     return render_template("viewmine.html", data=rows)
 
+@app.route("/view", methods=["GET", "POST"])
+def userView():
+    if request.method == "GET":
+        userid = session["user_id"]
+        data = db.execute("SELECT articles.id, users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE articles.userid = :userid", 
+        userid=userid)
+        return render_template("userView.html", data=data)
+        # if not data:
+        #     return render_template("view.html", msg=" article not found ")
+        # else:
+            # return render_template("view.html", data=data)
 
-# @app.route("/delete", methods=["GET"])
-# def check():
-    # """Return true if username available, else false, in JSON format"""
-    # username = request.args.get("username")
-    # print(username)
-    # # Query database for username
-    # rows = db.execute("SELECT * FROM users WHERE username = :username",
-    #                   username=username)
-    # print(rows)
-    # # Ensure username exists and password is correct
-    # if len(rows) >= 1:
-    #     return jsonify(False)
-    # else:
-    #     return jsonify(True)
+@app.route("/edit/<id>", methods=["GET", "POST"])
+def edit(id):
+    print("article before",id)
+    if request.method == "POST":
+        print("article after",id)
+        userid = session["user_id"]
+        title = request.form.get("title")
+        description = request.form.get("description")
+        content = request.form.get("content")
+        image = request.form.get("image")
+        db.execute("UPDATE articles SET title=:title, description=:description, content=:content, image=:image WHERE id=:id",
+            title=title, description=description, content=content, image=image, id=id)
+        return redirect("/view")
+    else:
+        data= db.execute("select * FROM articles WHERE id= :id", id=id)
+        # print(data[0]["id"])
+        return render_template("edit.html", data=data)
+@app.route("/delete/<id>", methods=["GET"])
+def delete(id):
+    """Return true if username available, else false, in JSON format"""
+    
+    # DELETE ITEM FROM database WITH ID
+    db.execute("DELETE FROM articles WHERE id = :id",
+                      id=id)
+    return redirect("/view", msg="Article deleted successfully")
 
 
 # def errorhandler(e):

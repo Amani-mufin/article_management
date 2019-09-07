@@ -188,12 +188,12 @@ def article():
         content = request.form.get("content")
         image = request.form.get("image")
         like = 0
-        dislik =0
+        dislike =0
         if not title or not description or not content:
             return render_template ("add_article.html", msg="Title, Description and Content fields must be filled")
         
-        db.execute("INSERT INTO articles ('userid', 'title', 'description', 'content', 'image') VALUES (:userid, :title, :description, :content, :image)",
-            userid=userid, title=title, description=description, content=content, image=image)
+        db.execute("INSERT INTO articles ('userid', 'title', 'description', 'content','like', 'dislike', 'image') VALUES (:userid, :title, :description, :content, :like, :dislike, :image)",
+            userid=userid, title=title, description=description, content=content, like=like, dislike=dislike, image=image)
         return redirect("/viewall")
 
     else:

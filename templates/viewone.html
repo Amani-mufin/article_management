@@ -14,8 +14,10 @@
       <p class="text-right"><b>Published On: </b>{{ datum.date }}</p>
       <hr>
         <div class="article_footer row">
-          <span class="col-2 text-left"><b><i class="fas fa-thumbs-up text-primary"></i> </b><sup>{{ datum.like }}</sup></span>
-          <span class="col-2 text-left"><b><i class="fas fa-thumbs-down text-primary"></i> </b><sup>{{ datum.dislike }}</sup></span>
+          <a href="/foo/{{ datum.id }}" class="btn mr-4 btn"><i class="fas fa-thumbs-up text-primary"></i>
+            {{ datum.like }}</a>
+        <a href="/dislike/{{ datum.id }}" class="btn mr-4 btn"><i class="fas fa-thumbs-down text-primary"></i>
+            {{ datum.dislike }}</a>
           <a href="/viewall/{{ datum.userid }}"><button class="float-right btn btn-primary">View all articles by {{ datum.username }}</button></a>
         </div>
       </div>

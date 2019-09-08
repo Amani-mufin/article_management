@@ -17,12 +17,10 @@
         </div>
         <hr>
         <div class="article_footer">
-            <a href="/foo/{{ datum.id }}" class="btn mr-4 btn" ><i class="fas fa-thumbs-up text-primary"></i> {{ datum.like }}</a>
-            {% if datum.dislike == None %}
-            <span class="ml-4"><i class="fas fa-thumbs-down text-primary"></i> 0</span>
-            {% else %}
-            <span class="ml-4"><i class="fas fa-thumbs-down text-primary"></i> {{ datum.dislike }}</span>
-            {% endif %}
+            <a href="/foo/{{ datum.id }}" class="btn mr-4 btn"><i class="fas fa-thumbs-up text-primary"></i>
+                {{ datum.like }}</a>
+            <a href="/dislike/{{ datum.id }}" class="btn mr-4 btn"><i class="fas fa-thumbs-down text-primary"></i>
+                {{ datum.dislike }}</a>
             <a class="ml-4" href="/viewone/{{ datum.id }}"><button class="btn btn-primary text-right">View
                     Article</button></a>
         </div>

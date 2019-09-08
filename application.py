@@ -211,14 +211,25 @@ def userView():
         #     return render_template("view.html", msg=" article not found ")
         # else:
             # return render_template("view.html", data=data)
+
 @app.route("/foo/<id>", methods=["GET", "POST"])
 def foo(id):
     print("article before",id)
     data= db.execute("select * FROM articles WHERE id= :id", id=id)
     db_like = data[0]["like"]+1
     db.execute("UPDATE articles SET like=:like WHERE id=:id",id=id, like=db_like)
-    print("this is like",db_like)
-    print("article after",id)
+    # print("this is like",db_like)
+    # print("article after",id)
+    return redirect("/viewall")
+
+@app.route("/dislike/<id>", methods=["GET", "POST"])
+def dislike(id):
+    print("article before",id)
+    data= db.execute("select * FROM articles WHERE id= :id", id=id)
+    db_dislike = data[0]["dislike"]+1
+    db.execute("UPDATE articles SET dislike=:dislike WHERE id=:id",id=id, dislike=db_dislike)
+    # print("this is like",db_dislike)
+    # print("article after",id)
     return redirect("/viewall")
 
 @app.route("/edit/<id>", methods=["GET", "POST"])

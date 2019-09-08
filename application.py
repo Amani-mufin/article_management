@@ -212,8 +212,8 @@ def userView():
         # else:
             # return render_template("view.html", data=data)
 
-@app.route("/foo/<id>", methods=["GET", "POST"])
-def foo(id):
+@app.route("/like/<id>", methods=["GET", "POST"])
+def like(id):
     print("article before",id)
     data= db.execute("select * FROM articles WHERE id= :id", id=id)
     db_like = data[0]["like"]+1

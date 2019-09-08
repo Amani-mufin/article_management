@@ -1,11 +1,16 @@
+import os
 from cs50 import SQL
-from flask import Flask, flash, jsonify, redirect, render_template, request, session
+from flask import Flask, flash, jsonify, redirect, render_template, request, session, url_for
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
 
-from helpers import login_required
+from helpers import login_required, allowed_file
+
+UPLOAD_FOLDER = 'static/uploads/'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 
 # Configure application
@@ -13,6 +18,9 @@ app = Flask(__name__)
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+# Configure upload folder
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Ensure responses aren't cached
 @app.after_request
@@ -59,6 +67,8 @@ def viewall():
 def viewone(id):
     """Show history of transactions"""
     rows = db.execute("SELECT * FROM users JOIN articles ON users.id = articles.userid WHERE articles.id=:id", id=id)
+    if rows[0]['image']:
+        rows[0]['image'] = "../" + rows[0]['image']
     return render_template("viewone.html", datum=rows[0])
 
 
@@ -69,7 +79,11 @@ def viewall_author(id):
     rows = db.execute("""SELECT articles.id, users.username, articles.title, articles.description, 
     articles.content, articles.like, articles.dislike, articles.image, articles.date 
     FROM users JOIN articles ON users.id = articles.userid WHERE articles.userid = :id ORDER BY date DESC""", id=id)
-    print(rows)
+
+    for row in rows:
+        if row['image']:
+            row['image'] = "../" + row['image']
+
     return render_template("view.html", data=rows)
 
 
@@ -185,11 +199,25 @@ def article():
         title = request.form.get("title")
         description = request.form.get("description")
         content = request.form.get("content")
-        image = request.form.get("image")
         like = 0
         dislike =0
         if not title or not description or not content:
             return render_template ("add_article.html", msg="Title, Description and Content fields must be filled")
+
+
+        file = request.files['image']
+            # if user does not select file, browser also
+            # submit an empty part without filename
+        # if not file or file.filename == '':
+        #     file.filename = 'ams.jpg'
+        
+        if not allowed_file(file.filename):
+            return render_template("add_article.html", msg="Wrong file type selected. You can only use png, jpg, jpeg and gif")
+
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        image = UPLOAD_FOLDER + filename
+        # return redirect(url_for('uploaded_file', filename=filename))
         
         db.execute("INSERT INTO articles ('userid', 'title', 'description', 'content','like', 'dislike', 'image') VALUES (:userid, :title, :description, :content, :like, :dislike, :image)",
             userid=userid, title=title, description=description, content=content, like=like, dislike=dislike, image=image)

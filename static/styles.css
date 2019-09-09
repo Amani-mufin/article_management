@@ -35,7 +35,8 @@ main
 
 .article_image{
     display: flex;
-    max-height: 700px;
+    max-height: 500px;
+    justify-content: center;
 }
 
 .article_image img {

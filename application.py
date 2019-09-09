@@ -41,10 +41,6 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///ams.db")
 
-# # Make sure API key is set
-# if not os.environ.get("API_KEY"):
-#     raise RuntimeError("API_KEY not set")
-
 
 @app.route("/")
 def index():
@@ -59,7 +55,6 @@ def viewall():
     rows = db.execute("""SELECT articles.id, users.username, articles.title, articles.description, 
     articles.content, articles.like, articles.dislike, articles.image, articles.date 
     FROM users JOIN articles ON users.id = articles.userid  ORDER BY date DESC""")
-    print(rows)
     return render_template("view.html", data=rows)
 
 
@@ -204,12 +199,7 @@ def article():
         if not title or not description or not content:
             return render_template ("add_article.html", msg="Title, Description and Content fields must be filled")
 
-
         file = request.files['image']
-            # if user does not select file, browser also
-            # submit an empty part without filename
-        # if not file or file.filename == '':
-        #     file.filename = 'ams.jpg'
         
         if not allowed_file(file.filename):
             return render_template("add_article.html", msg="Wrong file type selected. You can only use png, jpg, jpeg and gif")
@@ -227,44 +217,32 @@ def article():
         return render_template("add_article.html")
 
 
-@app.route("/view", methods=["GET", "POST"])
+@app.route("/view")
 @login_required
 def userView():
-    if request.method == "GET":
         userid = session["user_id"]
         data = db.execute("SELECT articles.id, users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE articles.userid = :userid ORDER BY date DESC", 
         userid=userid)
         return render_template("userView.html", data=data)
-        # if not data:
-        #     return render_template("view.html", msg=" article not found ")
-        # else:
-            # return render_template("view.html", data=data)
+
 
 @app.route("/like/<id>", methods=["GET", "POST"])
 def like(id):
-    print("article before",id)
     data= db.execute("select * FROM articles WHERE id= :id", id=id)
     db_like = data[0]["like"]+1
     db.execute("UPDATE articles SET like=:like WHERE id=:id",id=id, like=db_like)
-    # print("this is like",db_like)
-    # print("article after",id)
     return redirect("/viewall")
 
 @app.route("/dislike/<id>", methods=["GET", "POST"])
 def dislike(id):
-    print("article before",id)
     data= db.execute("select * FROM articles WHERE id= :id", id=id)
     db_dislike = data[0]["dislike"]+1
     db.execute("UPDATE articles SET dislike=:dislike WHERE id=:id",id=id, dislike=db_dislike)
-    # print("this is like",db_dislike)
-    # print("article after",id)
     return redirect("/viewall")
 
 @app.route("/edit/<id>", methods=["GET", "POST"])
 def edit(id):
-    print("article before",id)
     if request.method == "POST":
-        print("article after",id)
         userid = session["user_id"]
         title = request.form.get("title")
         description = request.form.get("description")
@@ -275,7 +253,6 @@ def edit(id):
         return redirect("/view")
     else:
         data= db.execute("select * FROM articles WHERE id= :id", id=id)
-        # print(data[0]["id"])
         return render_template("edit.html", data=data)
 
 
@@ -284,23 +261,12 @@ def delete(id):
     """Return true if username available, else false, in JSON format"""
     
     # DELETE ITEM FROM database WITH ID
-    db.execute("DELETE FROM articles WHERE id = :id",
-                      id=id)
+    db.execute("DELETE FROM articles WHERE id = :id", id=id)
     # get the remaining article from DB
     userid = session["user_id"]
     data = db.execute("SELECT articles.id, users.username, articles.title, articles.description, articles.content, articles.like, articles.dislike, articles.image, articles.date FROM users JOIN articles ON users.id = articles.userid WHERE articles.userid = :userid", 
         userid=userid)
+    for datum in data:
+        if datum['image']:
+            datum['image'] = "../"+datum['image']
     return render_template("userView.html", data=data, msg="Article deleted successfully")
-
-
-    
-
-# def errorhandler(e):
-#     """Handle error"""
-#     if not isinstance(e, HTTPException):
-#         e = InternalServerError()
-#     return apology(e.name, e.code)
-
-
-# # Listen for errors
-# for code in default_exceptions:

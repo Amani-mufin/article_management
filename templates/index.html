@@ -44,15 +44,15 @@ main %}
 </div>
 
 <div class="mt-5 d-flex justify-content-between">
-{% for i in range(3) %}
+{% for datum in data %}
 <div class="card" style="width: 18rem;">
-  <img src="/static/article{{ i+1 }}.jpg" class="card-img-top" alt="..." />
+  <img src="{{ datum.image }}" class="card-img-top" alt="{{ datum.title }}" />
   <div class="card-body">
-    <h5 class="card-title">Card title {{ i+1 }}</h5>
+    <h5 class="card-title">{{ datum.title }}</h5>
     <p class="card-text">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, dolore a saepe praesentium eaque nulla sequi corporis tempora laudantium nihil, qui provident voluptatem voluptate sapiente est, quaerat at. Distinctio, reprehenderit.
+      {{ datum.description }}
     </p>
-    <a href="#" class="btn btn-primary">Preview</a>
+    <a href="/viewone/{{ datum.id }}" class="btn btn-primary">View Article</a>
   </div>
 </div>
 {% endfor %}

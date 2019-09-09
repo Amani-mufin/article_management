@@ -16,21 +16,20 @@ Add New Article
 
     <form action="/article" method="POST" enctype="multipart/form-data">
 
-            <input class="title" name="title" placeholder="Title">
+        <input class="title" name="title" placeholder="Title" required>
 
-            <textarea class="md-6 description" cols="100" name="description"
-                placeholder="Description"></textarea>
+        <textarea class="md-6 description" cols="100" name="description" placeholder="Description" required></textarea>
 
-            <textarea name="content" id="textarea" rows="15" cols="100" class="content"
-                placeholder="Your Article here..."></textarea>
+        <textarea name="content" id="textarea" rows="15" cols="100" class="content"
+            placeholder="Your Article here..." required></textarea>
 
         <div class="custom-file mb-3 col-md-3">
-            <input type="file" name="image" class="form-control" accept="image/*"  />
+            <input type="file" name="image" class="form-control" accept="image/*" placeholder="Add an image" required />
         </div>
 
         <br>
 
-        
+
         <button class="btn btn-primary" type="submit">Share</button>
     </form>
 </div>

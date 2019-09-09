@@ -16,7 +16,8 @@ If you don't have all of the above requirements installed in your python virtual
 ```
 $ pip install -r requirements.txt
 ```
-If you don't know how to create and activate virtual environments, [follow this link](https://uoa-eresearch.github.io/eresearch-cookbook/recipe/2014/11/26/python-virtual-env/)
+If you don't know how to create and activate virtual environments, [follow this link](https://uoa-eresearch.github.io/eresearch-cookbook/recipe/2014/11/26/python-virtual-env/).
+
 After completing the necessary installation in your virtual environment, run the following commands
 ```
 $ export FLASK_APP=application.py

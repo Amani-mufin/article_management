@@ -45,7 +45,10 @@ db = SQL("sqlite:///ams.db")
 @app.route("/")
 def index():
     """Show index page"""
-    return render_template("index.html")
+    rows = db.execute("""SELECT articles.id, users.username, articles.title, articles.description, 
+    articles.content, articles.like, articles.dislike, articles.image, articles.date 
+    FROM users JOIN articles ON users.id = articles.userid  ORDER BY date DESC LIMIT 3""")
+    return render_template("index.html", data=rows)
 
 
 @app.route("/viewall")

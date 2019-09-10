@@ -250,9 +250,8 @@ def edit(id):
         title = request.form.get("title")
         description = request.form.get("description")
         content = request.form.get("content")
-        image = request.form.get("image")
-        db.execute("UPDATE articles SET title=:title, description=:description, content=:content, image=:image WHERE id=:id",
-            title=title, description=description, content=content, image=image, id=id)
+        db.execute("UPDATE articles SET title=:title, description=:description, content=:content WHERE id=:id",
+            title=title, description=description, content=content, id=id)
         return redirect("/view")
     else:
         data= db.execute("select * FROM articles WHERE id= :id", id=id)

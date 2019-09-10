@@ -45,4 +45,4 @@ Users should be able to
 ## Authors
 | [Victor CHINEWUBEZE](https://github.com/Victor-Chinewubeze) | [Amani Kanu](https://github.com/sirsuccess) | [Promise](https://github.com/smartpro1) |
 | --- | --- | --- |
-| ![Victor](https://res.cloudinary.com/doctor-vee/image/upload/v1554915401/PIC_450px.jpg) | ![Amani](https://res.cloudinary.com/doctor-vee/image/upload/v1567675231/amani.jpg) | ![Promise](https://res.cloudinary.com/doctor-vee/image/upload/v1567675229/man.jpg) |
+| ![Victor](https://res.cloudinary.com/doctor-vee/image/upload/v1554915401/PIC_450px.jpg) | ![Amani](https://res.cloudinary.com/doctor-vee/image/upload/v1567675231/amani.jpg) | ![Promise](https://res.cloudinary.com/doctor-vee/image/upload/v1568082570/promise.jpg) |

@@ -1,0 +1,30 @@
+{% extends "layout.html" %} {% block title %} View {% endblock %} {% block main
+    %}
+<div id="articles" class="row">
+    <div class="rpt_warn m-4">{{msg}}</div>
+    {% for datum in data %}
+    <div class="article mb-4 bg-light p-4">
+        <div class="article_main row">
+            <div class="article-img col-3">
+                <img src="{{ datum.image }}" alt="{{ datum.title }}">
+            </div>
+            <div class="article_head col-9">
+                <h3>{{ datum.title }}</h3>
+                <p><i>{{ datum.description }}</i></p>
+                <h4 class="text-right">- {{ datum.username }}</h4>
+                <p class="text-right"><b>Published On: </b>{{ datum.date }}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="article_footer">
+            <a href="/like/{{ datum.id }}" class="btn mr-4 btn"><i class="fas fa-thumbs-up text-primary"></i>
+                {{ datum.like }}</a>
+            <a href="/dislike/{{ datum.id }}" class="btn mr-4 btn"><i class="fas fa-thumbs-down text-primary"></i>
+                {{ datum.dislike }}</a>
+            <a class="ml-4" href="/viewone/{{ datum.id }}"><button class="btn btn-primary text-right">View
+                    Article</button></a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

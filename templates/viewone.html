@@ -1,0 +1,24 @@
+{% extends "layout.html" %} {% block title %} View - {{ datum.title }} {% endblock %} 
+{% block main%}
+      <div class="article mb-5 bg-light p-4">
+        <div class="article_head">
+        <h1>{{ datum.title }}</h1>
+        <p><i>{{ datum.description }}</i></p>
+      </div>
+        <div class="article_body" id="more{{ datum.id }}">
+        <hr>
+        <div class="article_image mb-4"><img src="{{ datum.image }}" alt="{{ datum.title }}"></div>
+        <p class="text-justify">{{ datum.content }}</p>
+      </div>
+      <h4 class="text-right">- {{ datum.username }}</h4>
+      <p class="text-right"><b>Published On: </b>{{ datum.date }}</p>
+      <hr>
+        <div class="article_footer row">
+          <a href="/like/{{ datum.id }}" class="btn mr-4 btn"><i class="fas fa-thumbs-up text-primary"></i>
+            {{ datum.like }}</a>
+        <a href="/dislike/{{ datum.id }}" class="btn mr-4 btn"><i class="fas fa-thumbs-down text-primary"></i>
+            {{ datum.dislike }}</a>
+          <a href="/viewall/{{ datum.userid }}"><button class="float-right btn btn-primary">View all articles by {{ datum.username }}</button></a>
+        </div>
+      </div>
+    {% endblock %}

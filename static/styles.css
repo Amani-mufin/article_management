@@ -1,0 +1,79 @@
+h1{
+    text-align: center;
+}
+
+
+.rpt_warn{
+    display: block;
+    width: 100%;
+    background-color: rgb(228, 16, 16);
+    color: #fff;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    height: auto; 
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+
+.auth-form{
+    width: 40%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn_auth{
+    text-align: center;
+}
+
+main
+{
+    /* center contents */
+    text-align: center;
+}
+
+.article_image{
+    display: flex;
+    max-height: 500px;
+    justify-content: center;
+}
+
+.article_image img {
+    object-fit: contain;
+  }
+
+.title{
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid rgb(243, 241, 238);
+    padding: 10px;
+    margin: 10px;
+}
+.description, .content{
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid rgb(243, 241, 238);
+    padding: 10px;
+    margin: 10px;
+}
+
+form[action="/article"] {
+    padding: 20px;
+}
+
+.article-img {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+}
+
+.article-img img{
+    width: 100%;
+    object-fit: contain;
+}
+
+.article_footer {
+    display: flex;
+    justify-content: flex-end;
+}

@@ -4,7 +4,7 @@ chardet==3.0.4
 cliapp==1.20170827
 Click==7.0
 cmdtest==0.32
-cryptography==2.1.4
+cryptography==2.3
 cs50==4.0.2
 enum34==1.1.6
 Flask==1.1.1

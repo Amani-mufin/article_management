@@ -2,7 +2,6 @@ asn1crypto==0.24.0
 attrs==17.4.0
 chardet==3.0.4
 Click==7.0
-cmdtest==0.32
 cryptography==2.1.4
 cs50==4.0.2
 enum34==1.1.6
